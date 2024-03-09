@@ -9,7 +9,8 @@ app = Flask(name)
 @app.route("/")
 def index():
     categories = dao.get_Categories()
-    return render_template('index.html',categories=categories)
+    prod = dao.get_Products()
+    return render_template('index.html', categories=categories, prod=prod)
 
 
 if __name__ == "__main__":
