@@ -16,6 +16,12 @@ def index():
     return render_template('index.html', categories=categories, prod=prod)
 
 
+@app.route("/products/<int:id>")
+def product(id):
+    product = dao.get_product_by_id(id=id)
+    return render_template('product-detail.html', product=product)
+
+
 if __name__ == "__main__":
     with app.app_context():
         app.run(debug=True)

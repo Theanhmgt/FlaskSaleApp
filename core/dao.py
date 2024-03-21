@@ -16,3 +16,12 @@ def get_Products(cate=None, kw=None):
         if kw:
             data = [p for p in data if p['name'].find(kw) > 0]
         return data
+
+
+def get_product_by_id(id=None):
+    with open("data/products.json", encoding="utf-8") as f:
+        data = json.load(f)
+
+        for p in data:
+            if p['id'] == id:
+                return p
