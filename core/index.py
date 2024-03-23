@@ -1,9 +1,6 @@
-from flask import Flask, render_template, request, redirect
+from flask import render_template, request, redirect
 
-from core import dao
-
-name = "Sale app"
-app = Flask(name)
+from core import dao, app
 
 
 @app.route("/")
