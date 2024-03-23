@@ -1,27 +1,32 @@
 import json
+from __init__ import app
+from models import *
 
 
 def get_Categories():
-    with open("data/categories.json", encoding="utf-8") as f:
-        return json.load(f)
+    return Category.query.all()
 
 
-def get_Products(cate=None, kw=None):
-    with open("data/products.json", encoding="utf-8") as f:
-        data = json.load(f)
+def get_Products(cate=None, kw=None,page=None):
+    prods = Product.query
 
-        if cate:
-            data = [p for p in data if p['category'] == int(cate)]
+    if cate:
+        prods = prods.filter(Product.category_id.__eq__(int(cate)))
 
-        if kw:
-            data = [p for p in data if p['name'].find(kw) > 0]
-        return data
+    if kw:
+        prods = prods.filter(Product.name.contains(kw))
+
+    if page:
+        page_size = app.config["page_size"]
+        start = (int(page) - 1) * page_size
+        prods = prods.slice(start, start + page_size)
+
+    return prods.all()
+
+
+def count_products():
+    return Product.query.count()
 
 
 def get_product_by_id(id=None):
-    with open("data/products.json", encoding="utf-8") as f:
-        data = json.load(f)
-
-        for p in data:
-            if p['id'] == id:
-                return p
+    return Product.query.get(id)

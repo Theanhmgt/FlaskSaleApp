@@ -1,15 +1,19 @@
-from flask import render_template, request, redirect
+import math
 
-from core import dao, app
+from flask import render_template, request, redirect
+from core import dao
+from __init__ import app
 
 
 @app.route("/")
 def index():
-    cate = request.args.get('cate_id')
+    cate = request.args.get('category_id')
     kw = request.args.get('q')
+    page = request.args.get('page')
 
-    prod = dao.get_Products(cate, kw)
-    return render_template('index.html', prod=prod)
+    prod = dao.get_Products(cate=cate, kw=kw, page=page)
+    pages = math.ceil(dao.count_products() / app.config['page_size'])
+    return render_template('index.html', prod=prod, pages = int(pages))
 
 
 @app.route("/products/<int:id>")
