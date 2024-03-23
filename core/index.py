@@ -3,7 +3,7 @@ import math
 from flask import render_template, request, redirect
 from core import dao
 from __init__ import app
-
+from admin import admin
 
 @app.route("/")
 def index():
