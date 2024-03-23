@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 
 from core import dao
 
@@ -12,7 +12,7 @@ def index():
     kw = request.args.get('q')
 
     prod = dao.get_Products(cate, kw)
-    return render_template('index.html',  prod=prod)
+    return render_template('index.html', prod=prod)
 
 
 @app.route("/products/<int:id>")
@@ -26,6 +26,18 @@ def common_attributes():
     return {
         'categories': dao.get_Categories()
     }
+
+
+@app.route('/login', methods=['get', 'post'])
+def login_my_user():
+    if request.method.__eq__('POST'):
+        username = request.form.get('username')
+        password = request.form.get('password')
+
+        if username.__eq__('admin') and password.__eq__('123'):
+            return redirect('/')
+
+    return render_template('login.html')
 
 
 if __name__ == "__main__":
